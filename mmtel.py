@@ -18,7 +18,6 @@ def cdr_write(file):
     records.setComponentByPosition(1, record.setComponentByPosition(2, mmtel.SIPMethod('INVITE'), ''))
     records.setComponentByPosition(1, record.setComponentByPosition(3, mmtel.RoleOfNode('originating'), ''))
 
-    print "test1"
     print record.prettyPrint()
     print records.prettyPrint()
 
