@@ -1,0 +1,4 @@
+# Ignore ber and pyc files #
+############################
+*.pyc
+*.ber
