@@ -10,6 +10,7 @@ Using just a subset of MMTelRecord ASN1 definition defined in 3GPP TS 32.298
 
 MAX = 64
 
+
 class RecordType(univ.Integer):
     namedValues = namedval.NamedValues(
         ('mMTelRecord', 83)
@@ -40,7 +41,6 @@ class MMTelRecord(univ.Set):
                                     RoleOfNode().subtype(
                                         implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 3))),
     )
-    sizeSpec = univ.SetOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
 
 
 class MMTelRecords(univ.SetOf):
