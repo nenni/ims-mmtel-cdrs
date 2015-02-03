@@ -8,19 +8,18 @@ Test to encode and decoder IMS MMTel CDR ber files
 Using just a subset of MMTelRecord ASN1 definition defined in 3GPP TS 32.298
 '''
 
-MAX = 64
-
 
 class RecordType(univ.Integer):
-    namedValues = namedval.NamedValues(
-        ('mMTelRecord', 83)
-    )
+    tagSet = univ.Integer.tagSet.tagImplicitly(tag.Tag(tag.tagClassApplication, tag.tagFormatSimple, 0))
+    namedValues = namedval.NamedValues(('mMTelRecord', 83))
 
 
-class SIPMethod(char.GraphicString): pass
+class SIPMethod(char.GraphicString):
+        tagSet = char.GraphicString.tagSet.tagImplicitly(tag.Tag(tag.tagClassApplication, tag.tagFormatSimple, 2))
 
 
 class RoleOfNode(univ.Enumerated):
+    tagSet = univ.Enumerated.tagSet.tagImplicitly(tag.Tag(tag.tagClassApplication, tag.tagFormatSimple, 3))
     namedValues = namedval.NamedValues(
         ('originating', 0),
         ('terminating', 1)
@@ -30,19 +29,8 @@ class RoleOfNode(univ.Enumerated):
 
 class MMTelRecord(univ.Set):
     componentType = namedtype.NamedTypes(
-        namedtype.NamedType('recordType',
-                            RecordType().subtype(implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 0))),
-        namedtype.OptionalNamedType('retransmission', univ.Null().subtype(
-            implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1))),
-        namedtype.OptionalNamedType('sIP-Method',
-                                    SIPMethod().subtype(
-                                        implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 2))),
-        namedtype.OptionalNamedType('role-of-Node',
-                                    RoleOfNode().subtype(
-                                        implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 3))),
+        namedtype.NamedType('recordType', RecordType()),
+        namedtype.OptionalNamedType('retransmission', univ.Null()),
+        namedtype.OptionalNamedType('sIP-Method', SIPMethod()),
+        namedtype.OptionalNamedType('role-of-Node', RoleOfNode()),
     )
-
-
-class MMTelRecords(univ.SetOf):
-    componentType = MMTelRecord()
-    sizeSpec = univ.SetOf.sizeSpec + constraint.ValueSizeConstraint(1, MAX)
